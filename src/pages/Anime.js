@@ -13,7 +13,6 @@ import {
   IconButton,
   MenuItem,
   Grid,
-  CircularProgress,
 } from "@mui/material";
 import { addGenre, deleteGenre, getGenres } from "../utils/api_genres";
 import { getAnimes } from "../utils/api_animes";
@@ -23,8 +22,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import {
   Add,
-  ArrowForwardIos,
-  ArrowBackIosNew,
   Remove,
   Send,
 } from "@mui/icons-material";
@@ -212,12 +209,11 @@ export default function AnimePage() {
               display: "inherit",
               height: "10px",
               borderRadius: "10px",
-              borderTop: "1px solid #17202A",
-              borderBottom: "1px solid #17202A",
-              bgcolor: "#17202A",
+              border: "1px solid #17202A",
+              bgcolor: "white",
             },
             "&::-webkit-scrollbar-thumb": {
-              bgcolor: "white",
+              bgcolor: "#17202A",
               borderRadius: "10px",
               border: "1px solid #17202A",
             },

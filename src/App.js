@@ -13,6 +13,7 @@ import AnimeNew from "./pages/AnimeNew";
 import AnimeDetail from "./pages/AnimeDetailPage";
 import AnimeEdit from "./pages/AnimeEdit";
 import WatchingPage from "./pages/WatchingPage";
+import UserFavouriteList from "./pages/List";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ export default function App() {
             <Route path="/editAnime/:id" element={<AnimeEdit />} />
 
             <Route path="/episode/:id" element={<WatchingPage />} />
+            <Route path="/lists" element={<UserFavouriteList />} />
 
             <Route path="/users/:id" element={<UserProfile />} />
             <Route path="/users" element={<UsersPage />} />

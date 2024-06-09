@@ -32,7 +32,7 @@ export default function LoginPage() {
   const loginMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      setCookie("currentUser", data, { maxAge: 3600 * 24 });
+      setCookie("currentUser", data, { maxAge: 3600 * 6 });
       localStorage.setItem("user", data.token);
       Swal.fire({
         color: "#fff",

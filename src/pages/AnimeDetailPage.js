@@ -41,6 +41,8 @@ import {
   Send,
   ArrowDropDown,
   ArrowDropUp,
+  BookmarkAdd,
+  BookmarkRemove,
 } from "@mui/icons-material";
 import { dislikesFunc } from "../utils/api_dislikes";
 import { likesFunc } from "../utils/api_likes";
@@ -48,6 +50,7 @@ import EpisodeAddModal from "../components/EpisodaAddModal";
 import { deleteEp } from "../utils/api_episodes";
 import { addComment } from "../utils/api_comment";
 import CommentBar from "../components/CommentListItem";
+import { addList, getUserList } from "../utils/api_lists";
 
 export default function AnimeDetail() {
   const { id } = useParams();
@@ -67,6 +70,11 @@ export default function AnimeDetail() {
   const { data: anime = {}, isLoading } = useQuery({
     queryKey: ["anime"],
     queryFn: () => getAnime(id, token),
+  });
+
+  const { data: list = [], isLoading: checking } = useQuery({
+    queryKey: ["list"],
+    queryFn: () => getUserList(token),
   });
 
   const likeAnimeMutation = useMutation({
@@ -208,7 +216,7 @@ export default function AnimeDetail() {
         color: "#fff",
         background: "#17202A",
         icon: "success",
-        title: "Comment added",
+        title: "Successfully added comment",
         showConfirmButton: false,
         timer: 1500,
       });
@@ -247,6 +255,47 @@ export default function AnimeDetail() {
     }
   };
 
+  const addToListMutation = useMutation({
+    mutationFn: addList,
+    onSuccess: () => {
+      Swal.fire({
+        color: "#fff",
+        background: "#17202A",
+        icon: "success",
+        title: `${
+          !list.find((item) => item._id === anime._id)
+            ? "Successfully added to list"
+            : "Successfully remove from list"
+        }`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["anime"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["list"],
+      });
+    },
+    onError: (e) => {
+      Swal.fire({
+        color: "#fff",
+        background: "#17202A",
+        icon: "error",
+        title: `${e.response.data.msg}`,
+        confirmButtonText: "Try again",
+      });
+    },
+  });
+
+  const handleAddToList = (e) => {
+    e.preventDefault();
+    addToListMutation.mutate({
+      id: anime._id,
+      token,
+    });
+  };
+
   if (!role && !token) {
     return (
       <>
@@ -261,7 +310,7 @@ export default function AnimeDetail() {
     );
   }
 
-  if (isLoading)
+  if (isLoading || checking)
     return (
       <>
         <Navbar />
@@ -385,6 +434,15 @@ export default function AnimeDetail() {
                       {anime.dislikes.length}
                     </Typography>
                   </IconButton>
+                  {!list.find((item) => item._id === anime._id) ? (
+                    <IconButton onClick={handleAddToList} color="primary">
+                      <BookmarkAdd fontSize="small" />
+                    </IconButton>
+                  ) : (
+                    <IconButton color="error" onClick={handleAddToList}>
+                      <BookmarkRemove fontSize="small" />
+                    </IconButton>
+                  )}
                 </Box>
               </Box>
             </Box>
@@ -553,20 +611,4 @@ export default function AnimeDetail() {
       />
     </>
   );
-}
-
-{
-  /* <IconButton
-                    sx={{ color: "white" }}
-                    onClick={() => setExpanded(!expanded)}
-                  >
-                    {expanded ? (
-                      <Comment fontSize="small" sx={{ color: "#68166A" }} />
-                    ) : (
-                      <Comment fontSize="small" />
-                    )}
-                    <Typography variant="span" fontSize="small" mx={1}>
-                      {anime.comments.length}
-                    </Typography>
-                  </IconButton> */
 }

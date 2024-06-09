@@ -20,7 +20,7 @@ export default function Navbar() {
   const nav = useNavigate();
   const [cookies, removeCookie] = useCookies(["currentUser"]);
   const { currentUser = {} } = cookies;
-  const { email, token, image, _id } = currentUser;
+  const { role, token, image, _id } = currentUser;
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -36,7 +36,7 @@ export default function Navbar() {
   let pageTitle = "Welcome to AnimeX";
 
   useEffect(() => {
-    if (!email) {
+    if (!role) {
       const target = localStorage.getItem("user");
       if (target) {
         logoutMutation2.mutate(target);
@@ -123,7 +123,7 @@ export default function Navbar() {
           }}
           onClick={handleClick}
         >
-          {!email || !token ? (
+          {!role || !token ? (
             <Avatar sx={{ height: "30px", width: "30px" }} />
           ) : (
             <img
@@ -135,7 +135,7 @@ export default function Navbar() {
         </IconButton>
       </Box>
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        {!email ? (
+        {!role ? (
           <>
             <MenuItem onClick={() => nav("/register")}>Sign Up</MenuItem>
             <MenuItem onClick={() => nav("/login")}>Sign In</MenuItem>
@@ -169,23 +169,6 @@ export default function Navbar() {
         >
           Post
         </Button>
-        {/* <Button
-          component={Link}
-          to="/videos"
-          sx={{
-            flex: 1,
-            fontWeight: "bold",
-            textAlign: "center",
-            textTransform: "capitalize",
-            color: "white",
-            bgcolor: location.pathname === "/videos" ? "#212F3D" : "#17202A",
-            "&:hover": {
-              bgcolor: "#1C2833",
-            },
-          }}
-        >
-          Video
-        </Button> */}
         <Button
           component={Link}
           to="/animes"
@@ -220,6 +203,25 @@ export default function Navbar() {
         >
           User
         </Button>
+        {role && (
+          <Button
+            component={Link}
+            to="/lists"
+            sx={{
+              flex: 1,
+              fontWeight: "bold",
+              textAlign: "center",
+              textTransform: "capitalize",
+              color: "white",
+              bgcolor: location.pathname === "/lists" ? "#212F3D" : "#17202A",
+              "&:hover": {
+                bgcolor: "#1C2833",
+              },
+            }}
+          >
+            List
+          </Button>
+        )}
       </Box>
     </Box>
   );
