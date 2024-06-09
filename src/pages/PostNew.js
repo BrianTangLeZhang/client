@@ -180,13 +180,14 @@ export default function PostNew() {
               >
                 <label htmlFor="upload-files">
                   <UploadButton
+                    id="upload-files"
                     type="file"
                     accept="image/*"
-                    id="upload-files"
                     multiple
                     onChange={(e) => setImages([...e.target.files])}
                   />
                   <Button
+                    component="span"
                     fullWidth
                     sx={{
                       px: 4,
@@ -209,31 +210,31 @@ export default function PostNew() {
                 sx={{ display: "flex", justifyContent: "end", gap: 2 }}
               >
                 <Button
-                    variant="outlined"
-                    sx={{
-                      color: "#17202A",
+                  variant="outlined"
+                  sx={{
+                    color: "#17202A",
+                    border: "2px solid #212F3D",
+                    "&:hover": {
                       border: "2px solid #212F3D",
-                      "&:hover": {
-                        border: "2px solid #212F3D",
-                      },
-                    }}
-                    onClick={() => nav("/")}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      bgcolor: "#17202A",
-                      "&:hover": {
-                        bgcolor: "#212F3D",
-                      },
-                      color: "white",
-                    }}
-                    onClick={(e) => handlerSubmit(e)}
-                  >
-                    Add
-                  </Button>
+                    },
+                  }}
+                  onClick={() => nav("/")}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    bgcolor: "#17202A",
+                    "&:hover": {
+                      bgcolor: "#212F3D",
+                    },
+                    color: "white",
+                  }}
+                  onClick={(e) => handlerSubmit(e)}
+                >
+                  Add
+                </Button>
               </Grid>
             </Grid>
           </CardContent>

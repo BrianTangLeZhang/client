@@ -47,7 +47,7 @@ export default function AnimePage() {
 
   const nav = useNavigate();
 
-  const { data: animes = [], isLoading } = useQuery({
+  const { data: animes = [] } = useQuery({
     queryKey: ["animes", search, genre, sort, token],
     queryFn: () => getAnimes(search, genre, sort, token),
   });
@@ -142,16 +142,6 @@ export default function AnimePage() {
       </>
     );
   }
-
-  if (isLoading)
-    return (
-      <>
-        <Navbar />
-        <Container sx={{ display: "flex" }}>
-          <CircularProgress />
-        </Container>
-      </>
-    );
 
   return (
     <>

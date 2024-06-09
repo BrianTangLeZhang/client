@@ -11,7 +11,6 @@ import {
   TextField,
   IconButton,
   Card,
-  CircularProgress,
 } from "@mui/material";
 import { getPosts } from "../utils/api_posts";
 import PostCard from "../components/PostCard";
@@ -25,26 +24,17 @@ export default function Home() {
   const [tags, setTags] = useState("");
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState("");
+
   const [cookies] = useCookies(["currentUser"]);
   const { currentUser = {} } = cookies;
   const { role } = currentUser;
 
   const nav = useNavigate();
 
-  const { data: posts = [],isLoading } = useQuery({
+  const { data: posts = [] } = useQuery({
     queryKey: ["posts", search, tags, page, sort],
     queryFn: () => getPosts(search, tags, page, sort),
   });
-
-  if (isLoading)
-    return (
-      <>
-        <Navbar />
-        <Container sx={{ display: "flex" }}>
-          <CircularProgress />
-        </Container>
-      </>
-    );
 
   return (
     <>
@@ -58,10 +48,7 @@ export default function Home() {
                 label="Search"
                 placeholder="Search By Title"
                 value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  setPage(1);
-                }}
+                onChange={(e) => setSearch(e.target.value)}
               />
             </FormControl>
             <FormControl sx={{ flex: 2 }}>
@@ -70,10 +57,7 @@ export default function Home() {
                 label="Tags"
                 placeholder="Search By Tags"
                 value={tags}
-                onChange={(e) => {
-                  setTags(e.target.value);
-                  setPage(1);
-                }}
+                onChange={(e) => setTags(e.target.value)}
               />
             </FormControl>
             <FormControl sx={{ flex: 1 }}>
