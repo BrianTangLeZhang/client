@@ -11,9 +11,6 @@ import {
   CardMedia,
   IconButton,
   Grid,
-  Modal,
-  styled,
-  TextField,
   Button,
   CircularProgress,
   OutlinedInput,
@@ -22,7 +19,7 @@ import {
   List,
 } from "@mui/material";
 import Navbar from "../components/Navbar";
-import { addToList, deleteAnime, getAnime, getList } from "../utils/api_animes";
+import { deleteAnime, getAnime } from "../utils/api_animes";
 import { url } from "../utils/url";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -35,7 +32,6 @@ import {
   ThumbDownOffAlt,
   ThumbUpAlt,
   ThumbUpOffAlt,
-  Comment,
   Add,
   Close,
   Send,
